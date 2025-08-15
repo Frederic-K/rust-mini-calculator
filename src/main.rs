@@ -1,9 +1,15 @@
 use std::io::{self, Write};
 
 // Simple arithmetic functions. We keep them small and pure to highlight types & functions.
-fn add(a: f64, b: f64) -> f64 { a + b }
-fn sub(a: f64, b: f64) -> f64 { a - b }
-fn mul(a: f64, b: f64) -> f64 { a * b }
+fn add(a: f64, b: f64) -> f64 {
+    a + b
+}
+fn sub(a: f64, b: f64) -> f64 {
+    a - b
+}
+fn mul(a: f64, b: f64) -> f64 {
+    a * b
+}
 fn div(a: f64, b: f64) -> Result<f64, String> {
     if b == 0.0 {
         Err(String::from("Division by zero is not allowed"))
@@ -11,7 +17,9 @@ fn div(a: f64, b: f64) -> Result<f64, String> {
         Ok(a / b)
     }
 }
-fn pow(a: f64, b: f64) -> f64 { a.powf(b) }
+fn pow(a: f64, b: f64) -> f64 {
+    a.powf(b)
+}
 
 // Parse a line like: "+ 2 3" or "add 2 3"
 fn evaluate(line: &str) -> Result<String, String> {
@@ -25,8 +33,25 @@ fn evaluate(line: &str) -> Result<String, String> {
     }
 
     let op = parts[0];
-    let a: f64 = parts[1].parse().map_err(|_| format!("'{}' is not a number", parts[1]))?;
-    let b: f64 = parts[2].parse().map_err(|_| format!("'{}' is not a number", parts[2]))?;
+    let a: f64 = parts[1]
+        .parse()
+        .map_err(|_| format!("'{}' is not a number", parts[1]))?;
+    let b: f64 = parts[2]
+        .parse()
+        .map_err(|_| format!("'{}' is not a number", parts[2]))?;
+
+    // ✅ `map_err` → transforme/mappe l'erreur
+    // ✅ `|_|` → ignore le message d'erreur original
+    // ✅ `format!()` → crée une nouvelle String avec un message personnalisé
+    // .map_err(|original_error| {
+    // // On pourrait utiliser original_error ici
+    // format!("Parse failed: {}", original_error)
+    // })
+
+    // .map_err(|_| {
+    //     // Le _ signifie "j'ignore original_error"
+    //     format!("'{}' is not a number", parts[1])
+    // })
 
     // Support both symbols and keywords to mirror "ergonomic APIs" you might write in Express.
     let result = match op {
@@ -35,7 +60,10 @@ fn evaluate(line: &str) -> Result<String, String> {
         "*" | "mul" | "x" => Ok(mul(a, b)),
         "/" | "div" => div(a, b),
         "^" | "pow" => Ok(pow(a, b)),
-        _ => Err(format!("Unknown operation '{}'. Try one of: +, -, *, /, ^ (or add, sub, mul, div, pow)", op)),
+        _ => Err(format!(
+            "Unknown operation '{}'. Try one of: +, -, *, /, ^ (or add, sub, mul, div, pow)",
+            op
+        )),
     }?;
 
     Ok(format!("{}", result))
