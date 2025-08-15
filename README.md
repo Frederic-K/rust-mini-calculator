@@ -4,8 +4,8 @@ A tiny interactive CLI calculator to learn **variables, types, and functions** i
 
 ## Why this project (MERN → Rust parallel)
 
-- In MERN, you'd create a small Node CLI with `readline` and pure JS functions for math.
-- Here, we do the same in Rust: standard input loop + small pure functions, compiled as a fast binary.
+- In MERN, i'd create a small Node CLI with `readline` and pure JS functions for math.
+- Here, i do the same in Rust: standard input loop + small pure functions, compiled as a fast binary.
 
 ## Features
 
